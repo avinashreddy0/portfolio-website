@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Induri Avinash Reddy — Portfolio</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+         
+            --bg: #0f1724;
+            --card: #0b1220;
+            --muted: #94a3b8;
+            --accent: #7d3cff; 
+            --accent-2: #ffb020; 
+            --glass: rgba(255, 255, 255, 0.04);
+            --glass-2: rgba(255, 255, 255, 0.02);
+            --accent-glow: 0 8px 30px rgba(125, 60, 255, 0.12);
+            --text-color: #e6eef8;
+        }
+
+        :root.light-mode {
+            --bg: #f5f5f5;
+            --card: #ffffff;
+            --muted: #6b7280;
+            --accent: #5e35b1; 
+            --accent-2: #e91e63; 
+            --glass: rgba(0, 0, 0, 0.04);
+            --glass-2: rgba(0, 0, 0, 0.02);
+            --accent-glow: 0 8px 30px rgba(94, 53, 177, 0.12);
+            --text-color: #212121;
+        }
+        
+   
+        .avatar {
+            position: relative;
+            width: 420px;
+            height: 420px;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+      
+        @media (max-width: 1200px) {
+            .hero { flex-direction: column-reverse; align-items: center; }
+            .avatar { width: 280px; height: 280px; }
+            .about-grid { grid-template-columns: 1fr; }
+            .contact-grid { grid-template-columns: 1fr; }
+        }
+
+ 
+        @media (max-width: 600px) {
+            .hero { padding: 6% 4%; }
+            .cta-row { flex-direction: column; gap: 8px; }
+            .socials { justify-content: center; }
+            .skills-grid { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+            .edu-card img { width: 100%; height: auto; }
+            .nav-right { flex-direction: column; align-items: flex-end; }
+            .nav-links { display: none !important; }
+            .mode-toggle-btn { margin-left: auto; }
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+            background: var(--bg);
+            color: var(--text-color);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            line-height: 1.45;
+            transition: background 0.5s ease-in-out, color 0.5s ease-in-out;
+        }
+
+        body.light-mode {
+            background: var(--bg);
+            color: var(--text-color);
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 60;
+            background: var(--bg);
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            transition: background 0.5s ease-in-out, border-bottom 0.5s ease-in-out;
+        }
+
+        body.light-mode header {
+            background: var(--card);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        nav { display: flex; align-items: center; justify-content: space-between; padding: 12px 6%; gap: 12px; }
+        .logo { font-weight: 800; font-size: 1.2rem; color: var(--accent); letter-spacing: 0.6px; }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+        .nav-links { display: flex; gap: 18px; align-items: center; list-style: none; margin: 0; }
+        .nav-links a { 
+            color: var(--muted); 
+            text-decoration: none; 
+            padding: 8px 6px; 
+            border-radius: 6px; 
+            font-weight: 600; 
+            position: relative;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { 
+            color: var(--text-color);
+            transform: translateY(-2px);
+        }
+        
+        /* Animated underline on hover/active */
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 100%;
+            bottom: -8px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            border-radius: 4px;
+            transition: right 0.3s ease-out;
+        }
+        .nav-links a.active::after, .nav-links a:hover::after {
+            right: 0;
+            box-shadow: 0 0 10px rgba(125, 60, 255, 0.4);
+        }
+
+        /* Project dropdown */
+        .projects-dropdown { position: relative; }
+        .projects-btn { display: inline-flex; gap: 8px; align-items: center; }
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            min-width: 220px;
+            background: var(--card);
+            border-radius: 10px;
+            padding: 8px;
+            box-shadow: var(--accent-glow);
+            display: none;
+            flex-direction: column;
+        }
+        .dropdown-menu a { padding: 8px 12px; color: var(--muted); text-decoration: none; border-radius: 6px; font-size: 0.95rem; }
+        .dropdown-menu a:hover { background: var(--glass); color: var(--text-color); }
+        .projects-dropdown.open .dropdown-menu { display: flex; }
+
+        /* Hero */
+        .hero { display: flex; align-items: center; gap: 40px; padding: 6% 6%; min-height: 72vh; }
+        .hero .left { flex: 1; max-width: 720px; }
+        .eyebrow {
+            display: inline-block;
+            padding: 6px 12px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            color: var(--card);
+            border-radius: 999px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+        h1 { font-size: 2.6rem; margin: 0 0 14px 0; }
+        h1 .name { color: var(--accent); display: inline-block; }
+        .role-line { font-size: 1.1rem; color: var(--muted); margin-bottom: 16px; }
+        .typed { display: inline-block; color: var(--accent-2); font-weight: 700; min-width: 220px; font-size: 1.2rem; }
+        
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            object-fit: cover;
+            transform: translateY(0);
+            transition: transform 0.9s cubic-bezier(.25, .9, .3, 1);
+        }
+        .avatar.animate img { transform: translateY(-8px) scale(1.02); }
+
+        .cta-row { display: flex; gap: 12px; align-items: center; margin-top: 18px; }
+        .btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            padding: 10px 16px;
+            border-radius: 10px;
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 700;
+        }
+        .btn.primary {
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            box-shadow: var(--accent-glow);
+            color: var(--card);
+            border: none;
+        }
+        .socials { display: flex; gap: 10px; margin-top: 18px; }
+        .socials a {
+            display: inline-grid;
+            place-items: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: var(--glass);
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: transform 0.3s, color 0.3s, box-shadow 0.3s;
+        }
+        .socials a:hover { transform: translateY(-4px); color: var(--text-color); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); }
+        
+
+        section { padding: 60px 6%; }
+        .section-title { display: flex; align-items: center; gap: 12px; margin-bottom: 26px; }
+        .section-title h2 { margin: 0; font-size: 1.6rem; }
+        .section-title .muted-desc { color: var(--muted); font-size: 0.95rem; }
+
+        .about-grid { display: grid; grid-template-columns: 320px 1fr; gap: 28px; align-items: center; }
+        .about-img img { width: 100%; border-radius: 12px; }
+        .about-text h3 { margin: 0 0 8px 0; }
+        .pill { display: inline-block; padding: 6px 12px; border-radius: 999px; background: var(--glass); color: var(--accent); font-weight: 700; }
+
+
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; }
+        .skill {
+            background: linear-gradient(180deg, var(--glass), rgba(255, 255, 255, 0.01));
+            padding: 18px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 700;
+            color: var(--accent-2);
+            box-shadow: 0 6px 18px rgba(2, 6, 23, 0.6);
+        }
+        body.light-mode .skill {
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+        }
+
+        .edu-card { display: flex; gap: 18px; align-items: center; padding: 16px; background: var(--glass-2); border-radius: 12px; }
+        .edu-card img { width: 330px; height: 250px; object-fit: cover; border-radius: 8px; }
+
+        .filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+        .filter-btn {
+            padding: 8px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        body.light-mode .filter-btn { border-color: rgba(0, 0, 0, 0.1); }
+        .filter-btn.active { background: linear-gradient(90deg, var(--accent), var(--accent-2)); color: var(--card); font-weight: 800; border: none; }
+        .project-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+            gap: 16px;
+        }
+        .project-card {
+            background: linear-gradient(180deg, var(--glass), rgba(255, 255, 255, 0.01));
+            padding: 12px;
+            border-radius: 12px;
+            transition: background 0.3s, opacity 0.4s, transform 0.4s;
+        }
+        .project-card.hidden {
+            opacity: 0;
+            transform: scale(0.95);
+            height: 0;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        body.light-mode .project-card {
+            background: var(--card);
+            border: 1px solid var(--glass);
+        }
+        .project-card h3 { margin: 8px 0; color: var(--accent-2); }
+        .project-card p { color: var(--muted); font-size: 0.9rem; }
+
+        .contact-grid { display: grid; grid-template-columns: 1fr 360px; gap: 28px; }
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--glass);
+            background: transparent;
+            color: var(--text-color);
+        }
+        .contact-form button {
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: none;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            color: var(--card);
+            font-weight: 800;
+        }
+        body.light-mode .contact-form input, body.light-mode .contact-form textarea {
+            background: var(--card);
+            border-color: rgba(0, 0, 0, 0.1);
+            color: var(--text-color);
+        }
+
+        footer {
+            padding: 28px 6%;
+            background: var(--card);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        body.light-mode footer {
+            background: var(--card);
+            border-top: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .muted { color: var(--muted); }
+        .reveal { opacity: 0; transform: translateY(12px); transition: all 700ms cubic-bezier(.2, .9, .3, 1); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        
+
+        .mode-toggle-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--muted);
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .mode-toggle-btn:hover {
+            color: var(--text-color);
+        }
+
+        /* Base style for the View Website button */
+.animated-btn {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0, 255, 255, 0.4) !important;
+  transition: all 0.4s ease-in-out;
+  z-index: 1;
+}
+
+/* The Inline Shimmer Animation (The line moving across) */
+.animated-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 255, 255, 0.4),
+    transparent
+  );
+  transition: none;
+  animation: shimmer 3s infinite;
+  z-index: -1;
+}
+
+/* Hover Effect: Background fill and Glow */
+.animated-btn:hover {
+  background: cyan !important;
+  color: black !important;
+  box-shadow: 0 0 20px cyan, 0 0 40px rgba(0, 255, 255, 0.6);
+  transform: translateY(-3px) scale(1.05);
+}
+
+.animated-btn:hover span {
+  color: black;
+}
+
+/* Keyframe for the moving line effect */
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  50%, 100% {
+    left: 100%;
+  }
+}
+
+/* Pulse animation for a constant "Live" feel */
+.animated-btn {
+  animation: buttonPulse 2s infinite;
+}
+
+@keyframes buttonPulse {
+  0% { box-shadow: 0 0 0 0 rgba(0, 255, 255, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(0, 255, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 255, 255, 0); }
+}
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo" style="font-size:22px;display:flex;align-items:center;gap:8px;">
+                <img src="human-icon.png" alt="Profile" style="width:54px;height:24px;border-radius:50%;object-fit:cover;">Portfolio
+            </div>
+            <a href="avi.html" class="btn btn-secondary animated-btn">
+            <span>View Website</span>
+            </a>
+            <div class="nav-right">
+                
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#skills" class="nav-link">Skills</a></li>
+                    <li><a href="#education" class="nav-link">Education</a></li>
+                    <li><a href="#work" class="nav-link">Work</a></li>
+                    <li class="projects-dropdown">
+                        <a class="nav-link projects-btn">Projects <i class="fa fa-caret-down" style="margin-left:6px;font-size:0.8rem"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="#projects" data-filter="all">All Projects</a>
+                            <a href="#projects" data-filter="DS">Data Science/ML</a>
+                            <a href="#projects" data-filter="DA">Data Analyst</a>
+                            <a href="#projects" data-filter="power bi">power bi</a>
+                            <a href="#projects" data-filter="pandas">Data Cleaning</a>
+                            <a href="#projects" data-filter="Certifications">Certifications</a>
+                        </div>
+                    </li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+                <button id="mode-toggle-btn" class="mode-toggle-btn">
+                    <span id="mode-icon">🌙</span>
+                </button>
+                <div class="mobile-nav" style="display:none">
+                    <button id="mobileToggle" aria-label="menu" style="background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px;border-radius:10px;color:var(--muted)"><i class="fa fa-bars"></i></button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="left">
+                <span class="eyebrow">Hello, I'm Avinash</span>
+                <h1 class="reveal">Hi There, I'm <span class="name">Induri Avinash Reddy</span></h1>
+                <p class="role-line reveal">I am into <span class="pill">Data Science &amp; Data Analyst</span> — <span class="typed" id="typed"></span></p>
+
+                <div class="cta-row reveal">
+                    <a class="btn primary" href="AVINASH RESUME.pdf" target="_blank">Download Resume</a>
+                    <a class="btn primary" href="cover letter (avinash).pdf" target="_blank">Download Cover Letter</a>
+                    <a class="btn" href="#projects">See Projects</a>
+                </div><br>
+
+                <div class="socials reveal" style="margin-top:14px">
+                    <a href="https://www.linkedin.com/in/avinash-reddy-induri-4662b832a" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/avinashreddy0" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://www.instagram.com/" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://x.com/home" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="mailto:induriavinashreddy05@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+
+            <div class="avatar reveal" id="avatarCard">
+                <img src="image1.jpg" alt="Avinash avatar" />
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="section-title">
+                <h2><i class="fas fa-user"></i> About <span style="color:var(--accent);margin-left:6px">Me</span></h2>
+                <div class="muted-desc">Brief introduction and contact</div>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-img reveal"><img src="image.jpg" alt="Avinash photo"></div>
+                <div class="about-text reveal">
+                    <h3>I'm <strong>Induri Avinash Reddy</strong></h3>
+                    <h4 class="muted">Data Science | Data Analyst| ML Enginner</h4>
+                    <p> I am a passionate Data Science &amp; Data Analyst, and ML Engineer currently pursuing B.Tech in AI & ML at Chalapathi Institute of Engineering and Technology, Guntur. I specialize in analyzing datasets, building predictive models, and developing interactive dashboards using Python, Power BI, and Streamlit. I focus on creating scalable workflows for data-driven decision making and machine learning applications.</p>
+                    <p><strong>Email</strong>: <a href="mailto:induriavinashreddy05@gmail.com" style="color:var(--accent)">induriavinashreddy05@gmail.com</a></p>
+                    <p><strong>Place</strong>: Guntur, Andhra Pradesh</p>
+                    <a class="btn primary" href="#contact">Get in touch</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <div class="section-title"><h2><i class="fas fa-laptop-code"></i> Skills &amp; <span style="color:var(--accent)">Abilities</span></h2></div>
+            <div class="skills-grid reveal">
+                <div class="skill">Python</div>
+                <div class="skill">Pandas</div>
+                <div class="skill">NumPy</div>
+                <div class="skill">Matplotlib</div>
+                <div class="skill">Seaborn</div>
+                <div class="skill">MySQL</div>
+                <div class="skill">Machine Learning</div>
+                <div class="skill">Statistics</div>
+                <div class="skill">Streamlit</div>
+                <div class="skill">Power BI</div>
+                <div class="skill">GIT</div>
+                <div class="skill">GIT HUB</div>
+                <div class="skill">HTML</div>
+                <div class="skill">CSS</div>
+            </div>
+        </section>
+
+        <section id="education">
+            <div class="section-title"><h2><i class="fas fa-graduation-cap"></i> Education</h2></div>
+            <p class="muted-desc">Education is not the learning of facts, but the training of the mind to think.</p>
+
+            <div style="margin-top:18px;display:grid;gap:12px">
+                <div class="edu-card reveal">
+                    <img src="ciet.jpg" alt="College">
+                    <div>
+                        <h3>Computer Science &amp; Machine Learning</h3>
+                        <p class="muted">Chalapathi Institute of Engineering and Technology</p>
+                        <span class="muted">2023 – 2027 | <strong>Pursuing</strong></span>
+                    </div>
+                </div>
+
+                <div class="edu-card reveal">
+                    <img src="nara.jpg" alt="Intermediate">
+                    <div>
+                        <h3>Intermediate – MPC</h3>
+                        <p class="muted">Narayana Junior College, Guntur</p>
+                        <span class="muted">2021 – 2023 | Completed</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="work">
+            <div class="section-title"><h2><i class="fas fa-briefcase"></i> Work</h2></div>
+            <div class="reveal">
+                <p class="muted-desc">Short note about internships, part-time work, or freelancing.</p>
+                <div style="margin-top:12px;display:grid;gap:10px">
+                    <div class="edu-card">
+                        <img src="ds.jpg" alt="work">
+                        <div>
+                            <h3>Data Science / ML / Data Analyst Intern</h3>
+                            <p class="muted">Worked on building data pipelines, analyzing datasets, and creating predictive models.</p>
+                            <span class="muted">Tools: Python, Pandas, NumPy, Matplotlib, Power BI, Streamlit,ML models</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <div class="section-title"><h2><i class="fas fa-code"></i> Projects</h2><div class="muted-desc">(Use the dropdown in the header to jump to a subcategory or click filters below)</div></div>
+
+            <div class="filters" id="filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="DS">Data Science and ML projects</button>
+                <button class="filter-btn" data-filter="DA">Data Analyst project</button>
+                <button class="filter-btn" data-filter="power bi">Power bi</button>
+                <button class="filter-btn" data-filter="pandas">Data cleaning</button>
+                <button class="filter-btn" data-filter="Certifications">Certifications</button>
+            </div>
+
+            <div class="project-grid" id="projectGrid">
+                <div class="project-card" data-category="DS">
+                    <h3>DATA SCIENCE</h3>
+                    <h3>House Price Prediction</h3>
+                    <p>Trained model, evaluation and Streamlit demo. Saved model with joblib.</p>
+                    <div style="margin-top:8px"><a class="btn" href="https://github.com/avinashreddy0/-Smart-Housing-Price-Predictor">Code</a></div>
+                </div>
+
+                <div class="project-card" data-category="DS">
+                    <h3>DATA SCIENCE</h3>
+                    <h3>Fake_News_Detection</h3>
+                    <p>Trained model, evaluation and Streamlit demo. Saved model with joblib.</p>
+                    <div style="margin-top:8px"><a class="btn" href="https://github.com/avinashreddy0/Data_Science_Fake_News_Detection-">View</a> <a class="btn" href="https://github.com/avinashreddy0/Data_Science_Fake_News_Detection-">Code</a></div>
+                </div>
+
+                <div class="project-card" data-category="DS">
+                    <h3>DATA SCIENCE</h3>
+                    <h3>JobMatch AI – Career Recommendation System</h3>
+                    <p>Trained model, evaluation and Streamlit demo. Saved model with joblib.</p>
+                    <div style="margin-top:8px"><a class="btn" href="https://github.com/avinashreddy0/data_science_project">View</a> <a class="btn" href="https://github.com/avinashreddy0/data_science_project">Code</a></div>
+                </div>
+                
+                <div class="project-card" data-category="DA">
+                    <h3>DATA ANALYST</h3>
+                    <h3> Heart_data_set &amp; Viz</h3>
+                    <p>Large messy dataset cleaning, EDA and visualizations in Power BI </p>
+                    <div style="margin-top:8px"><a class="btn" href="#">View</a> <a class="btn" href="#">Code</a></div>
+                </div>
+
+                <div class="project-card" data-category="power bi">
+                    <h3>POWER BI</h3>
+                    <h3> Blinkit_data_set &amp; Viz</h3>
+                    <p>We created a COVID-19 data visualization project using KPIs to track key metrics like cases, recoveries, and deaths. It provides clear insights and trends for quick analysis. </p>
+                    <div style="margin-top:8px"><a class="btn" href="https://github.com/avinashreddy0/BLINKIT-PROJECT-POWER-BI/blob/main/abhi%20blinkit%20project.pbix">View</a> <a class="btn" href="https://github.com/avinashreddy0/BLINKIT-PROJECT-POWER-BI/blob/main/abhi%20blinkit%20project.pbix">Code</a></div>
+                </div>
+                
+                <div class="project-card" data-category="power bi">
+                    <h3> cognifyz </h3>
+                    <p>Large messy dataset cleaning, EDA and visualizations in Power BI </p>
+                    <div style="margin-top:8px"><a class="btn" href="https://github.com/avinashreddy0/cognifyz">View</a> <a class="btn" href="https://github.com/avinashreddy0/cognifyz">Code</a></div>
+                </div>
+
+                <div class="project-card" data-category="pandas">
+                    <h3>Pandas Data Pipeline</h3>
+                    <p>covid 19 data_set.. </p>
+                    <p>ETL-style transformations, aggregations and export – focused on performance.</p>
+                    <div style="margin-top:8px"><a class="btn" href="https://github.com/avinashreddy0/covid-19-data_set-data-cleaing">View</a> <a class="btn" href="https://github.com/avinashreddy0/covid-19-data_set-data-cleaing">Code</a></div>
+                </div>
+
+                <div class="project-card" data-category="pandas">
+                    <h3>Pandas Data Pipeline</h3>
+                    <p>amozoan 19 data_set.. </p>
+                    <p>ETL-style transformations, aggregations and export – focused on performance.</p>
+                    <div style="margin-top:8px"><a class="btn" href="#">View</a> <a class="btn" href="#">Code</a></div>
+                </div>
+
+                <div class="project-card" data-category="Certifications">
+                    <h3>Certifications</h3>
+                    <p></p>
+                    <p></p>
+                    <div style="margin-top:8px"><a class="btn" href="av1.png">View</a> <br> <br> <a class="btn" href="avi3.png">View</a> <br>
+                    <br>
+                    <div style="margin-top:8px"><a class="btn" href="google.jpg">View</a> <br>
+                    <br>
+                    <div style="margin-top:8px"><a class="btn" href="ava2.png">View</a> 
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="section-title">
+                <h2><i class="fas fa-headset"></i> Get In Touch</h2>
+                <div class="muted-desc">I’d love to hear from you! I normally reply within a day or two.</div>
+            </div>
+            
+            <div class="contact-grid reveal">
+                <div>
+                    <p class="muted-desc">Prefer email? <a href="mailto:induriavinashreddy05@gmail.com" style="color:var(--accent)">
+                        <i class="fas fa-envelope"></i> induriavinashreddy05@gmail.com
+                    </a></p>
+                    <p class="muted-desc"><i class="fas fa-phone-alt"></i> Phone: +91 93467 39650</p>
+                    <p class="muted-desc"><i class="fas fa-map-marker-alt"></i> Location: Guntur, Andhra Pradesh</p>
+                    <p class="muted-desc">You can also fill out the form and I’ll get back to you shortly!</p>
+                </div>
+
+                <div>
+                    <form class="contact-form" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                        <input type="text" placeholder="Your Full Name" required />
+                        <input type="email" placeholder="Your Email Address" required />
+                        <input type="text" placeholder="Your Phone Number" />
+                        <textarea rows="4" placeholder="Your Message..." style="grid-column:1/-1" required></textarea>
+                        <button type="submit" style="grid-column:1/-1">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">
+                <div>
+                    <h4 style="margin:0;color:var(--accent)">Induri Avinash Reddy</h4>
+                    <p class="muted-desc">ML &amp; Data Science — B.Tech (AI &amp; ML)</p>
+                </div>
+                <div class="socials">
+                    <a href="https://github.com/avinashreddy0" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/avinash-reddy-induri-4662b832a" target="_blank"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div style="color:var(--muted)">Designed with ❤ by <strong>AVINASH REDDY</strong></div>
+        </footer>
+
+        <script>
+            
+          
+            const projectsDropdown = document.querySelector('.projects-dropdown');
+            const projectsBtn = document.querySelector('.projects-btn');
+            projectsBtn && projectsBtn.addEventListener('click', (e) => {
+                projectsDropdown.classList.toggle('open');
+            });
+
+           
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const projectCards = document.querySelectorAll('.project-card');
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    const f = btn.dataset.filter;
+                    projectCards.forEach(card => {
+                        if (f === 'all' || card.dataset.category === f) {
+                            card.style.display = 'block';
+                            setTimeout(() => card.classList.remove('hidden'), 10);
+                        } else {
+                            card.classList.add('hidden');
+                            setTimeout(() => card.style.display = 'none', 400); // Wait for transition
+                        }
+                    });
+                });
+            });
+
+        
+            document.querySelectorAll('.dropdown-menu a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const filter = link.dataset.filter || 'all';
+                    document.querySelector(`[data-filter="${filter}"]`)?.click();
+                    projectsDropdown.classList.remove('open');
+                    document.querySelector('#projects').scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+
+            const typedEl = document.getElementById('typed');
+            const phrases = ['Data Scientist', 'ML Engineer', 'Power BI Developer'];
+            let pIndex = 0, chIndex = 0, deleting = false;
+            function typeTick() {
+                const current = phrases[pIndex];
+                if (!deleting) {
+                    typedEl.textContent = current.slice(0, chIndex++);
+                    if (chIndex > current.length) {
+                        deleting = true;
+                        setTimeout(typeTick, 800);
+                        return;
+                    }
+                } else {
+                    typedEl.textContent = current.slice(0, chIndex--);
+                    if (chIndex < 0) {
+                        deleting = false;
+                        pIndex = (pIndex + 1) % phrases.length;
+                        chIndex = 0;
+                    }
+                }
+                setTimeout(typeTick, deleting ? 40 : 70);
+            }
+            setTimeout(typeTick, 900);
+
+           
+            window.addEventListener('load', () => {
+                document.querySelectorAll('.reveal').forEach((el, i) => setTimeout(() => el.classList.add('visible'), 120 * i));
+                setTimeout(() => document.getElementById('avatarCard')?.classList.add('animate'), 700);
+            });
+
+          
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const headerHeight = document.querySelector('header').offsetHeight;
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => link.classList.remove('active'));
+                        const currentLink = document.querySelector(`a[href="#${entry.target.id}"]`);
+                        if (currentLink) currentLink.classList.add('active');
+                    }
+                });
+            }, { rootMargin: `-40% 0px -40% 0px` });
+            sections.forEach(s => io.observe(s));
+            
+            
+            navLinks.forEach(a => {
+                a.addEventListener('click', e => {
+                    e.preventDefault();
+                   
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    a.classList.add('active');
+                    
+                    const targetId = a.getAttribute('href').substring(1);
+                    const targetEl = document.getElementById(targetId);
+                    const offsetTop = targetEl.offsetTop - headerHeight + 4;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!projectsDropdown.contains(e.target)) projectsDropdown.classList.remove('open');
+            });
+
+      
+            const modeToggleBtn = document.getElementById('mode-toggle-btn');
+            const modeIcon = document.getElementById('mode-icon');
+            const html = document.documentElement;
+
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                html.classList.add('light-mode');
+                modeIcon.textContent = '☀️';
+            }
+
+            modeToggleBtn.addEventListener('click', () => {
+                html.classList.toggle('light-mode');
+
+                if (html.classList.contains('light-mode')) {
+                    localStorage.setItem('theme', 'light');
+                    modeIcon.textContent = '☀️';
+                } else {
+                    localStorage.setItem('theme', 'dark');
+                    modeIcon.textContent = '🌙';
+                }
+            });
+        </script>
+    </body>
+</html>
